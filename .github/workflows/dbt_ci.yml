@@ -1,1 +1,9 @@
-on : pull_request
+on: pull_request
+jobs:
+  dbt_ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install dbt-snowflake
+      - run: dbt deps
+      - run: dbt build --target ci   # schéma temporaire isolé, "slim CI" avec --select state:modified+
